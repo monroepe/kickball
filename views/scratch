@@ -1,0 +1,3 @@
+<% @player_positions.each do |player, position| %>
+        <li><%= player %> <%= position %></li>
+      <% end %>

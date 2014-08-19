@@ -15,32 +15,23 @@ def get_teams(league)
   teams.uniq
 end
 
-def get_players(league)
-  players = []
-  league.each do |player|
-    players << player[:first_name] + ' ' + player[:last_name]
+def get_players_by_team(league, team)
+  league.find_all do |player|
+    player[:team] == team
   end
-  players
 end
 
-def get_positions_by_player(league)
-  player_positions = {}
-  league.each do |player|
-    player_positions[player[:first_name] + ' ' + player[:last_name]] = player[:position]
-  end
-  player_positions
-end
+
 
 
 get '/' do
   @league = league
-  @players = get_players(league)
   @teams = get_teams(league)
-  @player_positions = get_positions_by_player(league)
   erb :index
 end
 
 get '/:team_name' do
-  @player_positions = get_positions_by_player(league)
+  @league = league
+  @player_positions = get_players_by_team(league, params[:team_name])
   erb :team_name
 end
